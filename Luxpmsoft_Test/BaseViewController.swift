@@ -14,7 +14,18 @@ class BaseViewController: UIViewController {
 
         // Do any additional setup after loading the view.
     }
+    func presentAlert(withTitle title: String?, message: String, onTapAction completion: ((UIAlertAction) -> Void)?) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: completion)
+        alertController.addAction(okAction)
+        present(alertController, animated: true, completion: nil)
+    }
     
+    func presentAlertOnMainThread(withTitle title: String?, message: String, onTapAction completion: ((UIAlertAction) -> Void)?) {
+        DispatchQueue.main.async { [weak self] in
+            self?.presentAlert(withTitle: title, message: message, onTapAction: completion)
+        }
+    }
 
     /*
     // MARK: - Navigation
